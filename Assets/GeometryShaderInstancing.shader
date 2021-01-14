@@ -1,4 +1,4 @@
-﻿Shader "Custom/Unlit/SimpleInstancing"
+﻿Shader "GeometryShaderInstancing"
 {
     SubShader
     {
@@ -7,7 +7,7 @@
             CGPROGRAM
 
             #pragma target 5.0
-            #pragma vertex vertexShader
+            #pragma vertex   vertexShader
             #pragma geometry geometryShader
             #pragma fragment fragmentShader
 
@@ -18,13 +18,6 @@
                 float4 position : SV_POSITION;
                 half4 color : TEXCOORD1;
             };
-
-            // ------------------------------------------------------------------------------------
-            // VertexShader
-            // ------------------------------------------------------------------------------------
-
-            // スクリプト (CPU) 側で、DrawProcedual で指定された回数だけ、VertexShader が呼ばれる。
-            //  Graphics.DrawProcedural(MeshTopology.Points, this.numOfInstancing)
 
             vertexOutput vertexShader(uint vertexID : SV_VertexID)
             {
@@ -38,10 +31,6 @@
 
                 return output;
             }
-
-            // ------------------------------------------------------------------------------------
-            // GeometryShader
-            // ------------------------------------------------------------------------------------
 
             // https://msdn.microsoft.com/ja-jp/library/bb205146(v=vs.85).aspx
             // https://msdn.microsoft.com/ja-jp/library/bb509609(v=vs.85).aspx
@@ -76,10 +65,6 @@
                 outputStream.RestartStrip();
             }
 
-            // ------------------------------------------------------------------------------------
-            // FragmentShader
-            // ------------------------------------------------------------------------------------
-            
             fixed4 fragmentShader(vertexOutput input) : COLOR
             {
                 return input.color;
